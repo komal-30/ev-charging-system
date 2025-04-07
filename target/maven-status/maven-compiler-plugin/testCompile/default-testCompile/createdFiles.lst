@@ -1,0 +1,4 @@
+com\ev\charging\system\test\ReservationServiceTest.class
+com\ev\charging\system\test\ChargingStationControllerIntegrationTest.class
+com\ev\charging\system\test\ReservationControllerIntegrationTest.class
+com\ev\charging\system\test\ChargingStationServiceTest.class
