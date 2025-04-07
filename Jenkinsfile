@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package'  // Builds the .jar file
+                bat 'mvn clean package'  // Builds the .jar file
             }
         }
         stage('Archive Artifact') {
