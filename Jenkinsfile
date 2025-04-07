@@ -1,11 +1,10 @@
 pipeline {
     agent any
     tools {
-        jdk 'JDK17'       // Matches the name you configured in Jenkins
+        jdk 'JDK17'
         maven 'Maven 3.9.6'
     }
     environment {
-        // Store SonarCloud token in Jenkins Credentials (ID: 'sonarcloud-token')
         SONAR_TOKEN = credentials('sonarcloud-token') 
     }
     stages {
@@ -15,14 +14,22 @@ pipeline {
                 url: 'https://github.com/komal-30/ev-charging-system.git'
             }
         }
+        
         stage('Build') {
             steps {
-                bat 'mvn clean package'  // Builds the .jar file
+                // SECURE CHANGE: Wrap Maven build with credentials
+                withCredentials([string(credentialsId: 'db-password-secret', variable: 'DB_PASSWORD')]) {
+                    bat """
+                        mvn clean package ^
+                        -Dspring.datasource.password=%DB_PASSWORD%
+                    """
+                }
             }
         }
+        
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarCloud') {  // Matches Jenkins SonarQube server name
+                withSonarQubeEnv('SonarCloud') {
                     bat """
                         mvn sonar:sonar ^
                         -Dsonar.projectKey=ev-charging-system ^
@@ -33,9 +40,10 @@ pipeline {
                 }
             }
         }
+        
         stage('Archive Artifact') {
             steps {
-                archiveArtifacts 'target/*.jar'  // Saves the JAR for deployment
+                archiveArtifacts 'target/*.jar'
             }
         }
     }
