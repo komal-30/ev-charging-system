@@ -1,0 +1,11 @@
+com\ev\charging\system\entity\ChargingStation.class
+com\ev\charging\system\service\ReservationService.class
+com\ev\charging\system\repository\ChargingStationRepository.class
+com\ev\charging\system\Application.class
+com\ev\charging\system\controller\ReservationController.class
+com\ev\charging\system\repository\ReservationRepository.class
+com\ev\charging\system\exception\ResourceNotFoundException.class
+com\ev\charging\system\service\ChargingStationService.class
+com\ev\charging\system\entity\Reservation$ReservationStatus.class
+com\ev\charging\system\controller\ChargingStationController.class
+com\ev\charging\system\entity\Reservation.class
