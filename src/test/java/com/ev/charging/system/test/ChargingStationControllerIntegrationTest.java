@@ -28,7 +28,7 @@ import com.ev.charging.system.service.ChargingStationService;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
-public class ChargingStationControllerIntegrationTest {
+class ChargingStationControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;

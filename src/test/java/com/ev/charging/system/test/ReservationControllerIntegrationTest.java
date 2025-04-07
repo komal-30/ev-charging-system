@@ -1,6 +1,5 @@
 package com.ev.charging.system.test;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -16,8 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc; // Added import
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -30,7 +29,7 @@ import com.ev.charging.system.service.ReservationService;
 @SpringBootTest // Loads the full application context
 @AutoConfigureMockMvc // Automatically configures MockMvc
 @ExtendWith(SpringExtension.class)
-public class ReservationControllerIntegrationTest {
+class ReservationControllerIntegrationTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -66,22 +65,20 @@ public class ReservationControllerIntegrationTest {
 
 	@Test
 	void testCreateReservation() throws Exception {
-	    LocalDateTime start = LocalDateTime.now();
-	    LocalDateTime end = start.plusHours(1);
+		LocalDateTime start = LocalDateTime.now();
+		LocalDateTime end = start.plusHours(1);
 
-	    Reservation reservation = new Reservation();
-	    reservation.setId(10L);
+		Reservation reservation = new Reservation();
+		reservation.setId(10L);
 
-	    // Modify the mock setup: Using any(LocalDateTime.class) instead of eq() with matchers
-	    Mockito.when(reservationService.createReservation(eq(3L), eq(4L), Mockito.any(LocalDateTime.class),
-	            Mockito.any(LocalDateTime.class))).thenReturn(reservation);
+		// Modify the mock setup: Using any(LocalDateTime.class) instead of eq() with
+		// matchers
+		Mockito.when(reservationService.createReservation(eq(3L), eq(4L), Mockito.any(LocalDateTime.class),
+				Mockito.any(LocalDateTime.class))).thenReturn(reservation);
 
-	    mockMvc.perform(post("/api/reservations/station/3/user/4")
-	            .param("startTime", start.toString())
-	            .param("endTime", end.toString())
-	            .contentType(MediaType.APPLICATION_JSON))
-	            .andExpect(status().isCreated())
-	            .andExpect(jsonPath("$.id").value(10L));
+		mockMvc.perform(post("/api/reservations/station/3/user/4").param("startTime", start.toString())
+				.param("endTime", end.toString()).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isCreated()).andExpect(jsonPath("$.id").value(10L));
 	}
 
 	@Test
