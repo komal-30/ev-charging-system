@@ -28,18 +28,18 @@ pipeline {
         }
         
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarCloud') {
-                    bat """
-                        mvn sonar:sonar ^
-                        -Dsonar.projectKey=ev-charging-system ^
-                        -Dsonar.organization=your-sonarcloud-org ^
-                        -Dsonar.login=%SONAR_TOKEN% ^
-                        -Dsonar.host.url=https://sonarcloud.io
-                    """
-                }
-            }
+    		steps {
+        		withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONAR_TOKEN')]) {
+		            bat """
+		                mvn sonar:sonar ^
+		                -Dsonar.projectKey=ev-charging-system ^
+		                -Dsonar.organization=komal-30 ^
+		                -Dsonar.host.url=https://sonarcloud.io ^
+		                -Dsonar.login=%SONAR_TOKEN%
+		            """
         }
+    }
+}
         
         stage('Archive Artifact') {
             steps {
